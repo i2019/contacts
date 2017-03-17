@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- 
+为了使用这个模板，我们需要对其进行慎重地命名并放在项目的正确
+位置下。因为ContactController中home()方法所返回的逻辑视
+图名为home，因此模板文件应该命名为home.html，自动配置的模板
+解析器会在指定的目录下查找Thymeleaf模板，这个目录也就是相对
+于根类路径下的templates目录下，所以在Maven或Gradle项目中，我
+们需要将home.html放到“src/main/ resources/templates”中。
+ -->
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Spring Boot Contacts</title>
+    
+    <!-- 
+    当采用Spring Boot的Web自动配置来定义Spring MVC bean时，这些
+	bean中会包含一个资源处理器（resource handler），它会将“/**”映射
+	到几个资源路径中。这些资源路径包括（相对于类路径的根）：
+		/META-INF/resources/
+		/resources/
+		/static/
+		/public/
+    
+	    在传统的基于Maven/Gradle构建的项目中，我们通常会将静态内容放
+	在“src/main/webapp”目录下，这样在构建所生成的WAR文件里面，这
+	些内容就会位于WAR文件的根目录下。如果使用Spring Boot构建WAR
+	文件的话，这依然是可选的方案。但是，我们也可以将静态内容放在
+	资源处理器所映射的上述四个路径下。
+	
+	具体的选择完全取决于自己。
+     -->
+    <link rel="stylesheet" th:href="@{/style.css}" />
+  </head>
+  <!-- 
+  D:\LJT\workspace\eclipsespaces\s7\workspace\contacts
+  项目构建:
+  切换到项目目录，执行命令：mvn package
+  运行Maven构建后，你会在target文件夹下找到构建形成的结果。
+   -->
+  <body>
+    <h2>Spring Boot Contacts</h2>
+    <!-- 表单将会POST数据到ContactController的submit()方法上，用来创建新的Contact。 -->
+    <form method="POST">
+      <label for="firstName">First Name:</label>
+      <input type="text" name="firstName"></input><br/>
+      <label for="lastName">Last Name:</label>
+      <input type="text" name="lastName"></input><br/>
+      <label for="phoneNumber">Phone #:</label>
+      <input type="text" name="phoneNumber"></input><br/>
+      <label for="emailAddress">Email:</label>
+      <input type="text" name="emailAddress"></input><br/>
+      <input type="submit"></input>
+    </form>
+
+	<!-- 列表部分将会循环列出模型中的Contact对象。 -->
+    <ul th:each="contact : ${contacts}">
+      <li>
+        <span th:text="${contact.firstName}">First</span>
+        <span th:text="${contact.lastName}">Last</span> :
+        <span th:text="${contact.phoneNumber}">phoneNumber</span>,
+        <span th:text="${contact.emailAddress}">emailAddress</span>
+      </li>
+    </ul>
+  </body>
+</html>
